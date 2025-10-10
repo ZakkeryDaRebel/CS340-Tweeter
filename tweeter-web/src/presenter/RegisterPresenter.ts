@@ -12,37 +12,27 @@ export interface RegisterView {
   ) => void;
   displayErrorMessage: (message: string) => void;
   navigate: (url: string) => void;
+  setImageUrl: (url: string) => void;
+  setImageFileExtension: (url: string) => void;
 }
-//navigate(`/feed/${user.alias}`);
 
 export class RegisterPresenter {
   private _view: RegisterView;
   private userService: UserService;
-  private _imageUrl: string;
   private _imageBytes: Uint8Array;
-  private _imageFileExtension: string;
 
   public constructor(view: RegisterView) {
     this._view = view;
     this.userService = new UserService();
-    this._imageUrl = "";
     this._imageBytes = new Uint8Array();
-    this._imageFileExtension = "";
-  }
-
-  public get imageUrl() {
-    return this._imageUrl;
-  }
-
-  public get imageFileExtension() {
-    return this._imageFileExtension;
   }
 
   public async register(
     firstName: string,
     lastName: string,
     alias: string,
-    password: string
+    password: string,
+    imageFileExtension: string
   ): Promise<[User, AuthToken]> {
     return await this.userService.register(
       firstName,
@@ -50,13 +40,13 @@ export class RegisterPresenter {
       alias,
       password,
       this._imageBytes,
-      this._imageFileExtension
+      imageFileExtension
     );
   }
 
   public handleImageFile(file: File | undefined) {
     if (file) {
-      this._imageUrl = URL.createObjectURL(file);
+      this._view.setImageUrl(URL.createObjectURL(file));
 
       const reader = new FileReader();
       reader.onload = (event: ProgressEvent<FileReader>) => {
@@ -78,10 +68,10 @@ export class RegisterPresenter {
       // Set image file extension (and move to a separate method)
       const fileExtension = this.getFileExtension(file);
       if (fileExtension) {
-        this._imageFileExtension = fileExtension;
+        this._view.setImageFileExtension(fileExtension);
       }
     } else {
-      this._imageUrl = "";
+      this._view.setImageUrl("");
       this._imageBytes = new Uint8Array();
     }
   }
@@ -95,7 +85,8 @@ export class RegisterPresenter {
     lastName: string,
     alias: string,
     password: string,
-    rememberMe: boolean
+    rememberMe: boolean,
+    imageFileExtension: string
   ) {
     try {
       this._view.setIsLoading(true);
@@ -104,7 +95,8 @@ export class RegisterPresenter {
         firstName,
         lastName,
         alias,
-        password
+        password,
+        imageFileExtension
       );
 
       this._view.updateUserInfo(user, user, authToken, rememberMe);

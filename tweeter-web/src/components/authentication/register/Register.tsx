@@ -16,6 +16,8 @@ const Register = () => {
   const [lastName, setLastName] = useState("");
   const [alias, setAlias] = useState("");
   const [password, setPassword] = useState("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageFileExtension, setImageFileExtension] = useState<string>("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,6 +30,8 @@ const Register = () => {
     updateUserInfo: updateUserInfo,
     displayErrorMessage: displayErrorMessage,
     navigate: navigate,
+    setImageUrl: setImageUrl,
+    setImageFileExtension: setImageFileExtension,
   };
 
   const presenterRef = useRef<RegisterPresenter | null>(null);
@@ -41,8 +45,8 @@ const Register = () => {
       !lastName ||
       !alias ||
       !password ||
-      !presenterRef.current!.imageUrl ||
-      !presenterRef.current!.imageFileExtension
+      !imageUrl ||
+      !imageFileExtension
     );
   };
 
@@ -63,7 +67,8 @@ const Register = () => {
       lastName,
       alias,
       password,
-      rememberMe
+      rememberMe,
+      imageFileExtension
     );
   };
 
@@ -107,14 +112,10 @@ const Register = () => {
             onKeyDown={registerOnEnter}
             onChange={handleFileChange}
           />
-          {presenterRef.current!.imageUrl.length > 0 && (
+          {imageUrl.length > 0 && (
             <>
               <label htmlFor="imageFileInput">User Image</label>
-              <img
-                src={presenterRef.current!.imageUrl}
-                className="img-thumbnail"
-                alt=""
-              ></img>
+              <img src={imageUrl} className="img-thumbnail" alt=""></img>
             </>
           )}
         </div>
