@@ -27,23 +27,6 @@ export class RegisterPresenter {
     this._imageBytes = new Uint8Array();
   }
 
-  public async register(
-    firstName: string,
-    lastName: string,
-    alias: string,
-    password: string,
-    imageFileExtension: string
-  ): Promise<[User, AuthToken]> {
-    return await this.userService.register(
-      firstName,
-      lastName,
-      alias,
-      password,
-      this._imageBytes,
-      imageFileExtension
-    );
-  }
-
   public handleImageFile(file: File | undefined) {
     if (file) {
       this._view.setImageUrl(URL.createObjectURL(file));
@@ -108,5 +91,22 @@ export class RegisterPresenter {
     } finally {
       this._view.setIsLoading(false);
     }
+  }
+
+  public async register(
+    firstName: string,
+    lastName: string,
+    alias: string,
+    password: string,
+    imageFileExtension: string
+  ): Promise<[User, AuthToken]> {
+    return await this.userService.register(
+      firstName,
+      lastName,
+      alias,
+      password,
+      this._imageBytes,
+      imageFileExtension
+    );
   }
 }
