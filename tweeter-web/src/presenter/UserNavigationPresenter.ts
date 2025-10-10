@@ -24,6 +24,8 @@ export class UserNavigationPresenter {
     authToken: AuthToken | null,
     setDisplayedUser: (user: User) => void
   ): Promise<void> {
+    //event.preventDefault();
+
     try {
       const featureURL = this.extractFeatureURL(event.target.toString());
       const alias = this.extractAlias(event.target.toString());
