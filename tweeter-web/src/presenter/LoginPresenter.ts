@@ -1,42 +1,35 @@
 import { User, AuthToken } from "tweeter-shared";
 import { UserService } from "../model.service/UserService";
-import { Presenter, View } from "./Presenter";
+import { Presenter } from "./Presenter";
+import { SignInPresenter, SignInView } from "./SignInPresenter";
 
-export interface LoginView extends View {
-  setIsLoading: (value: boolean) => void;
-  updateUserInfo: (
-    currentUser: User,
-    displayedUser: User,
-    authToken: AuthToken,
-    rememberMe: boolean
-  ) => void;
-  navigate: (url: string) => void;
-}
-
-export class LoginPresenter extends Presenter<LoginView> {
+export class LoginPresenter extends SignInPresenter<SignInView> {
   private originalUrl: string | undefined;
-  private userService: UserService;
 
-  public constructor(view: LoginView, originalUrl: string | undefined) {
+  public constructor(view: SignInView, originalUrl: string | undefined) {
     super(view);
     this.originalUrl = originalUrl;
-    this.userService = new UserService();
   }
 
-  public async doLogin(alias: string, password: string, rememberMe: boolean) {
-    await this.doFailureReportingOperation(async () => {
-      this.view.setIsLoading(true);
+  protected doSignInAction(
+    firstName: string,
+    lastName: string,
+    alias: string,
+    password: string,
+    imageFileExtension: string
+  ) {
+    return this.userService.login(alias, password);
+  }
 
-      const [user, authToken] = await this.userService.login(alias, password);
+  protected navigateAction(user: User): void {
+    if (!!this.originalUrl) {
+      this.view.navigate(this.originalUrl);
+    } else {
+      this.view.navigate(`/feed/${user.alias}`);
+    }
+  }
 
-      this.view.updateUserInfo(user, user, authToken, rememberMe);
-
-      if (!!this.originalUrl) {
-        this.view.navigate(this.originalUrl);
-      } else {
-        this.view.navigate(`/feed/${user.alias}`);
-      }
-    }, "log user");
-    this.view.setIsLoading(false);
+  protected itemDescription(): string {
+    return "log user";
   }
 }

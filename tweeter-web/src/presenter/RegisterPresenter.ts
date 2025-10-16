@@ -1,28 +1,19 @@
 import { User, AuthToken } from "tweeter-shared";
 import { UserService } from "../model.service/UserService";
 import { Buffer } from "buffer";
-import { Presenter, View } from "./Presenter";
+import { Presenter } from "./Presenter";
+import { SignInPresenter, SignInView } from "./SignInPresenter";
 
-export interface RegisterView extends View {
-  setIsLoading: (isLoading: boolean) => void;
-  updateUserInfo: (
-    currentUser: User,
-    displayedUser: User,
-    authToken: AuthToken,
-    rememberMe: boolean
-  ) => void;
-  navigate: (url: string) => void;
+export interface RegisterView extends SignInView {
   setImageUrl: (url: string) => void;
   setImageFileExtension: (url: string) => void;
 }
 
-export class RegisterPresenter extends Presenter<RegisterView> {
-  private userService: UserService;
+export class RegisterPresenter extends SignInPresenter<RegisterView> {
   private _imageBytes: Uint8Array;
 
   public constructor(view: RegisterView) {
     super(view);
-    this.userService = new UserService();
     this._imageBytes = new Uint8Array();
   }
 
@@ -62,39 +53,14 @@ export class RegisterPresenter extends Presenter<RegisterView> {
     return file.name.split(".").pop();
   }
 
-  public async doRegister(
+  protected doSignInAction(
     firstName: string,
     lastName: string,
     alias: string,
     password: string,
-    rememberMe: boolean,
     imageFileExtension: string
   ) {
-    await this.doFailureReportingOperation(async () => {
-      this.view.setIsLoading(true);
-
-      const [user, authToken] = await this.register(
-        firstName,
-        lastName,
-        alias,
-        password,
-        imageFileExtension
-      );
-
-      this.view.updateUserInfo(user, user, authToken, rememberMe);
-      this.view.navigate(`/feed/${user.alias}`);
-    }, "register user");
-    this.view.setIsLoading(false);
-  }
-
-  public async register(
-    firstName: string,
-    lastName: string,
-    alias: string,
-    password: string,
-    imageFileExtension: string
-  ): Promise<[User, AuthToken]> {
-    return await this.userService.register(
+    return this.userService.register(
       firstName,
       lastName,
       alias,
@@ -102,5 +68,13 @@ export class RegisterPresenter extends Presenter<RegisterView> {
       this._imageBytes,
       imageFileExtension
     );
+  }
+
+  protected navigateAction(user: User): void {
+    this.view.navigate(`/feed/${user.alias}`);
+  }
+
+  protected itemDescription(): string {
+    return "register user";
   }
 }

@@ -62,7 +62,7 @@ const Register = () => {
   };
 
   const doRegister = async () => {
-    return presenterRef.current!.doRegister(
+    return presenterRef.current!.doSignIn(
       firstName,
       lastName,
       alias,
