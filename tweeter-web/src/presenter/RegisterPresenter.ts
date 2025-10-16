@@ -1,7 +1,5 @@
-import { User, AuthToken } from "tweeter-shared";
-import { UserService } from "../model.service/UserService";
+import { User } from "tweeter-shared";
 import { Buffer } from "buffer";
-import { Presenter } from "./Presenter";
 import { SignInPresenter, SignInView } from "./SignInPresenter";
 
 export interface RegisterView extends SignInView {
