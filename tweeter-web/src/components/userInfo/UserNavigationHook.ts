@@ -51,7 +51,6 @@ const navigateToUser = async (
   event.preventDefault();
   presenterRef.navigateToUser(
     event,
-    displayErrorMessage,
     displayedUser,
     authToken,
     setDisplayedUser

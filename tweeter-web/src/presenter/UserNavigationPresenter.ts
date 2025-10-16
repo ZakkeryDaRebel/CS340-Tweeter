@@ -16,10 +16,6 @@ export class UserNavigationPresenter extends Presenter<UserNavigationView> {
 
   public async navigateToUser(
     event: React.MouseEvent,
-    displayErrorMessage: (
-      message: string,
-      bootstrapClasses?: string | undefined
-    ) => string,
     displayedUser: User | null,
     authToken: AuthToken | null,
     setDisplayedUser: (user: User) => void
