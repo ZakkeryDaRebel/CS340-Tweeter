@@ -1,7 +1,8 @@
 import { AuthToken, Status, User } from "tweeter-shared";
 import { PostService } from "../model.service/PostService";
+import { Presenter, View } from "./Presenter";
 
-export interface PostView {
+export interface PostView extends View {
   setIsLoading: (isLoading: boolean) => void;
   displayInfoMessage: (
     message: string,
@@ -9,19 +10,14 @@ export interface PostView {
     bootstrapClasses?: string | undefined
   ) => string;
   setPost: (post: string) => void;
-  displayErrorMessage: (
-    message: string,
-    bootstrapClasses?: string | undefined
-  ) => string;
   deleteMessage: (messageId: string) => void;
 }
 
-export class PostPresenter {
-  private _view: PostView;
+export class PostPresenter extends Presenter<PostView> {
   private postService: PostService;
 
   public constructor(view: PostView) {
-    this._view = view;
+    super(view);
     this.postService = new PostService();
   }
 
@@ -31,10 +27,9 @@ export class PostPresenter {
     authToken: AuthToken
   ) {
     var postingStatusToastId = "";
-
-    try {
-      this._view.setIsLoading(true);
-      postingStatusToastId = this._view.displayInfoMessage(
+    await this.doFailureReportingOperation(async () => {
+      this.view.setIsLoading(true);
+      postingStatusToastId = this.view.displayInfoMessage(
         "Posting status...",
         0
       );
@@ -43,15 +38,11 @@ export class PostPresenter {
 
       await this.postService.postStatus(authToken!, status);
 
-      this._view.setPost("");
-      this._view.displayInfoMessage("Status posted!", 2000);
-    } catch (error) {
-      this._view.displayErrorMessage(
-        `Failed to post the status because of exception: ${error}`
-      );
-    } finally {
-      this._view.deleteMessage(postingStatusToastId);
-      this._view.setIsLoading(false);
-    }
+      this.view.setPost("");
+      this.view.displayInfoMessage("Status posted!", 2000);
+    }, "post the status");
+    //finally?
+    this.view.deleteMessage(postingStatusToastId);
+    this.view.setIsLoading(false);
   }
 }

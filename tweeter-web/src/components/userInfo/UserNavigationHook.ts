@@ -16,6 +16,7 @@ export const useUserNavigation = () => {
 
   const listener: UserNavigationView = {
     navigate: navigate,
+    displayErrorMessage: displayErrorMessage,
   };
 
   const presenterRef = useRef<UserNavigationPresenter | null>(null);
