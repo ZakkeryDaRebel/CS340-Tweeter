@@ -35,21 +35,26 @@ export abstract class SignInPresenter<
     rememberMe: boolean,
     imageFileExtension: string
   ) {
-    await this.doFailureReportingOperation(async () => {
-      this.view.setIsLoading(true);
+    await this.doFailureReportingAndFinallyOperation(
+      async () => {
+        this.view.setIsLoading(true);
 
-      const [user, authToken] = await this.doSignInAction(
-        firstName,
-        lastName,
-        alias,
-        password,
-        imageFileExtension
-      );
+        const [user, authToken] = await this.doSignInAction(
+          firstName,
+          lastName,
+          alias,
+          password,
+          imageFileExtension
+        );
 
-      this.view.updateUserInfo(user, user, authToken, rememberMe);
-      this.navigateAction(user);
-    }, this.itemDescription());
-    this.view.setIsLoading(false);
+        this.view.updateUserInfo(user, user, authToken, rememberMe);
+        this.navigateAction(user);
+      },
+      this.itemDescription(),
+      () => {
+        this.view.setIsLoading(false);
+      }
+    );
   }
 
   protected abstract doSignInAction(

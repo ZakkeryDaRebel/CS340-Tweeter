@@ -30,4 +30,21 @@ export abstract class Presenter<V extends View> {
       );
     }
   }
+
+  protected async doFailureReportingAndFinallyOperation(
+    operation: () => Promise<void>,
+    operationDescription: string,
+    finallyOperation: () => void
+  ) {
+    try {
+      await operation();
+    } catch (error) {
+      console.log(error);
+      this.view.displayErrorMessage(
+        `Failed to load ${operationDescription} because of exception: ${error}`
+      );
+    } finally {
+      finallyOperation();
+    }
+  }
 }
