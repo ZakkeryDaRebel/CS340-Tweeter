@@ -9,7 +9,7 @@ import {
 } from "@typestrong/ts-mockito";
 import { StatusService } from "../../src/model.service/StatusService";
 import { PostPresenter, PostView } from "../../src/presenter/PostPresenter";
-import { AuthToken, Status, User } from "tweeter-shared";
+import { AuthToken, User } from "tweeter-shared";
 
 describe("PostStatusPresenter", () => {
   let mockPostView: PostView;

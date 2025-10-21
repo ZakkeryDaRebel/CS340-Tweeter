@@ -2,9 +2,9 @@ import { render, screen } from "@testing-library/react";
 import PostStatus from "../../../src/components/postStatus/PostStatus";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import { PostPresenter, PostView } from "../../../src/presenter/PostPresenter";
+import { PostPresenter } from "../../../src/presenter/PostPresenter";
 import { useUserInfo } from "../../../src/components/userInfo/UserHooks";
-import { anything, instance, mock, verify } from "@typestrong/ts-mockito";
+import { instance, mock, verify } from "@typestrong/ts-mockito";
 import { AuthToken, User } from "tweeter-shared";
 
 jest.mock("../../../src/components/userInfo/UserHooks", () => ({
@@ -26,8 +26,9 @@ describe("PostStatus Component", () => {
   });
 
   it("starts with both buttons disabled", () => {
-    const { submitButton } = renderPostAndGetElements();
+    const { submitButton, clearButton } = renderPostAndGetElements();
     expect(submitButton).toBeDisabled();
+    expect(clearButton).toBeDisabled();
   });
 
   it("both buttons are enabled when the text field has text", async () => {
