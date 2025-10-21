@@ -43,7 +43,9 @@ export abstract class Presenter<V extends View> {
     } catch (error) {
       console.log(error);
       this.view.displayErrorMessage(
-        `Failed to load ${operationDescription} because of exception: ${error}`
+        `Failed to ${operationDescription} because of exception: ${
+          (error as Error).message
+        }`
       );
     } finally {
       finallyOperation();

@@ -5,7 +5,6 @@ import {
 } from "../../src/presenter/AppNavbarPresenter";
 import {
   anything,
-  capture,
   instance,
   mock,
   spy,
@@ -19,7 +18,7 @@ describe("AppNavbarPresenter", () => {
   let appNavbarPresenter: AppNavbarPresenter;
   let mockService: UserService;
 
-  const authToken = new AuthToken("avc123", Date.now());
+  const authToken = new AuthToken("abc123", Date.now());
 
   beforeEach(() => {
     mockAppNavbarPresenterView = mock<AppNavbarView>();
