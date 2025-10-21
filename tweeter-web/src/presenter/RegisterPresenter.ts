@@ -1,4 +1,3 @@
-import { User } from "tweeter-shared";
 import { Buffer } from "buffer";
 import { SignInPresenter, SignInView } from "./SignInPresenter";
 
@@ -51,6 +50,23 @@ export class RegisterPresenter extends SignInPresenter<RegisterView> {
     return file.name.split(".").pop();
   }
 
+  public register(
+    firstName: string,
+    lastName: string,
+    alias: string,
+    password: string,
+    imageFileExtension: string
+  ) {
+    return this.doSignIn(
+      firstName,
+      lastName,
+      alias,
+      password,
+      imageFileExtension,
+      undefined
+    );
+  }
+
   protected doSignInAction(
     firstName: string,
     lastName: string,
@@ -66,10 +82,6 @@ export class RegisterPresenter extends SignInPresenter<RegisterView> {
       this._imageBytes,
       imageFileExtension
     );
-  }
-
-  protected navigateAction(user: User): void {
-    this.view.navigate(`/feed/${user.alias}`);
   }
 
   protected itemDescription(): string {

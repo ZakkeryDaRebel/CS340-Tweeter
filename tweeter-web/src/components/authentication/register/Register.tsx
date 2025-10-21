@@ -18,7 +18,6 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [imageFileExtension, setImageFileExtension] = useState<string>("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -62,12 +61,11 @@ const Register = () => {
   };
 
   const doRegister = async () => {
-    return presenterRef.current!.doSignIn(
+    return presenterRef.current!.register(
       firstName,
       lastName,
       alias,
       password,
-      rememberMe,
       imageFileExtension
     );
   };
@@ -138,7 +136,7 @@ const Register = () => {
       oAuthHeading="Register with:"
       inputFieldFactory={inputFieldFactory}
       switchAuthenticationMethodFactory={switchAuthenticationMethodFactory}
-      setRememberMe={setRememberMe}
+      setRememberMe={presenterRef.current!.setRememberMe}
       submitButtonDisabled={checkSubmitButtonStatus}
       isLoading={isLoading}
       submit={doRegister}

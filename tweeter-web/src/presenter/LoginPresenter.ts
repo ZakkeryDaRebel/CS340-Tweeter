@@ -2,11 +2,16 @@ import { User } from "tweeter-shared";
 import { SignInPresenter, SignInView } from "./SignInPresenter";
 
 export class LoginPresenter extends SignInPresenter<SignInView> {
-  private originalUrl: string | undefined;
-
-  public constructor(view: SignInView, originalUrl: string | undefined) {
+  public constructor(view: SignInView) {
     super(view);
-    this.originalUrl = originalUrl;
+  }
+
+  public login(
+    alias: string,
+    password: string,
+    originalUrl: string | undefined
+  ) {
+    return this.doSignIn("", "", alias, password, "", originalUrl);
   }
 
   protected doSignInAction(
@@ -17,14 +22,6 @@ export class LoginPresenter extends SignInPresenter<SignInView> {
     imageFileExtension: string
   ) {
     return this.userService.login(alias, password);
-  }
-
-  protected navigateAction(user: User): void {
-    if (!!this.originalUrl) {
-      this.view.navigate(this.originalUrl);
-    } else {
-      this.view.navigate(`/feed/${user.alias}`);
-    }
   }
 
   protected itemDescription(): string {

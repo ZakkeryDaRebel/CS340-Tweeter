@@ -11,12 +11,12 @@ import { SignInView } from "../../../presenter/SignInPresenter";
 
 interface Props {
   originalUrl?: string;
+  presenter?: LoginPresenter;
 }
 
 const Login = (props: Props) => {
   const [alias, setAlias] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Login = (props: Props) => {
 
   const presenterRef = useRef<LoginPresenter | null>(null);
   if (!presenterRef.current) {
-    presenterRef.current = new LoginPresenter(listener, props.originalUrl);
+    presenterRef.current = props.presenter ?? new LoginPresenter(listener);
   }
 
   const checkSubmitButtonStatus = (): boolean => {
@@ -46,14 +46,7 @@ const Login = (props: Props) => {
   };
 
   const doLogin = async () => {
-    return presenterRef.current!.doSignIn(
-      "",
-      "",
-      alias,
-      password,
-      rememberMe,
-      ""
-    );
+    return presenterRef.current!.login(alias, password, props.originalUrl);
   };
 
   const inputFieldFactory = () => {
@@ -83,7 +76,7 @@ const Login = (props: Props) => {
       oAuthHeading="Sign in with:"
       inputFieldFactory={inputFieldFactory}
       switchAuthenticationMethodFactory={switchAuthenticationMethodFactory}
-      setRememberMe={setRememberMe}
+      setRememberMe={presenterRef.current!.setRememberMe}
       submitButtonDisabled={checkSubmitButtonStatus}
       isLoading={isLoading}
       submit={doLogin}

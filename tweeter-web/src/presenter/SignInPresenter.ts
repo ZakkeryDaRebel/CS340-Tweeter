@@ -17,14 +17,20 @@ export abstract class SignInPresenter<
   V extends SignInView
 > extends Presenter<V> {
   private _userService: UserService;
+  private rememberMe: boolean;
 
   protected constructor(view: V) {
     super(view);
     this._userService = new UserService();
+    this.rememberMe = false;
   }
 
   protected get userService() {
     return this._userService;
+  }
+
+  public setRememberMe(value: boolean) {
+    this.rememberMe = value;
   }
 
   public async doSignIn(
@@ -32,8 +38,8 @@ export abstract class SignInPresenter<
     lastName: string,
     alias: string,
     password: string,
-    rememberMe: boolean,
-    imageFileExtension: string
+    imageFileExtension: string,
+    originalUrl: string | undefined
   ) {
     await this.doFailureReportingAndFinallyOperation(
       async () => {
@@ -47,8 +53,12 @@ export abstract class SignInPresenter<
           imageFileExtension
         );
 
-        this.view.updateUserInfo(user, user, authToken, rememberMe);
-        this.navigateAction(user);
+        this.view.updateUserInfo(user, user, authToken, this.rememberMe);
+        if (!!originalUrl) {
+          this.view.navigate(originalUrl);
+        } else {
+          this.view.navigate(`/feed/${user.alias}`);
+        }
       },
       this.itemDescription(),
       () => {
@@ -64,8 +74,6 @@ export abstract class SignInPresenter<
     password: string,
     imageFileExtension: string
   ): Promise<[User, AuthToken]>;
-
-  protected abstract navigateAction(user: User): void;
 
   protected abstract itemDescription(): string;
 }
