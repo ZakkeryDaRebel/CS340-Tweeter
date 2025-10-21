@@ -88,12 +88,12 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
           `${toastDescription} ${displayedUser!.name}...`,
           0
         );
-        console.log("Before followMethod");
+
         const [followerCount, followeeCount] = await followMethod(
           authToken,
           displayedUser
         );
-        console.log("After FollowMethod");
+
         this.view.setIsFollower(setFollower);
         this.view.setFollowerCount(followerCount);
         this.view.setFolloweeCount(followeeCount);

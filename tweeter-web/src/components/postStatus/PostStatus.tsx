@@ -4,7 +4,11 @@ import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo } from "../userInfo/UserHooks";
 import { PostPresenter, PostView } from "../../presenter/PostPresenter";
 
-const PostStatus = () => {
+interface Props {
+  presenter?: PostPresenter;
+}
+
+const PostStatus = (props: Props) => {
   const { displayErrorMessage, displayInfoMessage, deleteMessage } =
     useMessageActions();
 
@@ -22,7 +26,7 @@ const PostStatus = () => {
 
   const presenterRef = useRef<PostPresenter | null>(null);
   if (!presenterRef.current) {
-    presenterRef.current = new PostPresenter(listener);
+    presenterRef.current = props.presenter ?? new PostPresenter(listener);
   }
 
   const submitPost = async (event: React.MouseEvent) => {
@@ -45,6 +49,7 @@ const PostStatus = () => {
         <textarea
           className="form-control"
           id="postStatusTextArea"
+          aria-label="postTextBox"
           rows={10}
           placeholder="What's on your mind?"
           value={post}

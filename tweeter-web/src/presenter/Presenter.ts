@@ -41,7 +41,6 @@ export abstract class Presenter<V extends View> {
     try {
       await operation();
     } catch (error) {
-      console.log(error);
       this.view.displayErrorMessage(
         `Failed to ${operationDescription} because of exception: ${
           (error as Error).message
