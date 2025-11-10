@@ -14,6 +14,7 @@ export { AuthToken } from "./model/domain/AuthToken";
 // DTOs
 //
 export type { UserDto } from "./model/dto/UserDto";
+export type { StatusDto } from "./model/dto/StatusDto";
 
 //
 // Requests
@@ -21,14 +22,18 @@ export type { UserDto } from "./model/dto/UserDto";
 export type { PagedUserItemRequest } from "./model/net/request/PagedUserItemRequest";
 export type { IsFollowerRequest } from "./model/net/request/IsFollowerRequest";
 export type { GeneralFollowRequest } from "./model/net/request/GeneralFollowRequest";
+export type { PagedStatusItemRequest } from "./model/net/request/PagedStatusItemRequest";
+export type { PostStatusRequest } from "./model/net/request/PostStatusRequest";
 
 //
 // Responses
 //
+export type { TweeterResponse } from "./model/net/response/TweeterResponse";
 export type { PagedUserItemResponse } from "./model/net/response/PagedUserItemResponse";
 export type { IsFollowerResponse } from "./model/net/response/IsFollowerResponse";
 export type { GetCountResponse } from "./model/net/response/GetCountResponse";
 export type { GetFollowerAndFolloweeCountResponse } from "./model/net/response/GetFollowerAndFolloweeCountResponse";
+export type { PagedStatusItemResponse } from "./model/net/response/PagedStatusItemResponse";
 
 //
 // Other

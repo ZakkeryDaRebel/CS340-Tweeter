@@ -2,7 +2,7 @@ import { AuthToken, User, FakeData, UserDto } from "tweeter-shared";
 import { Service } from "./Service";
 
 export class FollowService implements Service {
-  // Helper Method
+  // Helper Methods
   private async getFakeData(
     lastItem: UserDto | null,
     pageSize: number,
@@ -15,6 +15,15 @@ export class FollowService implements Service {
     );
     const dtos = items.map((user: User) => user.dto);
     return [dtos, hasMore];
+  }
+
+  private async getCounts(
+    token: string,
+    userToFollow: UserDto
+  ): Promise<[number, number]> {
+    const followerCount = await this.getFollowerCount(token, userToFollow);
+    const followeeCount = await this.getFolloweeCount(token, userToFollow);
+    return [followerCount, followeeCount];
   }
 
   // Endpoint 1
@@ -71,10 +80,7 @@ export class FollowService implements Service {
 
     // TODO: Call the server
 
-    const followerCount = await this.getFollowerCount(token, userToFollow);
-    const followeeCount = await this.getFolloweeCount(token, userToFollow);
-
-    return [followerCount, followeeCount];
+    return await this.getCounts(token, userToFollow);
   }
 
   // Endpoint 7
@@ -87,9 +93,6 @@ export class FollowService implements Service {
 
     // TODO: Call the server
 
-    const followerCount = await this.getFollowerCount(token, userToUnfollow);
-    const followeeCount = await this.getFolloweeCount(token, userToUnfollow);
-
-    return [followerCount, followeeCount];
+    return await this.getCounts(token, userToUnfollow);
   }
 }
