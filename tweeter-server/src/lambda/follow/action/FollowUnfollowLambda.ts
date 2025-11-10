@@ -1,11 +1,11 @@
 import {
-  GeneralFollowRequest,
+  GeneralTokenedUserRequest,
   GetFollowerAndFolloweeCountResponse,
   UserDto,
 } from "tweeter-shared";
 
 export const handler = async (
-  request: GeneralFollowRequest,
+  request: GeneralTokenedUserRequest,
   operation: (
     token: string,
     userToUnfollow: UserDto

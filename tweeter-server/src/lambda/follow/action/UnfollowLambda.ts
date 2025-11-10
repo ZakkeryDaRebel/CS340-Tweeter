@@ -1,12 +1,12 @@
 import {
-  GeneralFollowRequest,
+  GeneralTokenedUserRequest,
   GetFollowerAndFolloweeCountResponse,
 } from "tweeter-shared";
 import { FollowService } from "../../../model/service/FollowService";
 import { handler as parentHandler } from "./FollowUnfollowLambda";
 
 export const handler = async (
-  request: GeneralFollowRequest
+  request: GeneralTokenedUserRequest
 ): Promise<GetFollowerAndFolloweeCountResponse> => {
   const followService = new FollowService();
   return parentHandler(request, followService.unfollow);

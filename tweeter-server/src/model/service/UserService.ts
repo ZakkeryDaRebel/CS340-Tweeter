@@ -1,53 +1,49 @@
-import { Buffer } from "buffer";
-import { AuthToken, User, FakeData } from "tweeter-shared";
+import { FakeData, UserDto } from "tweeter-shared";
 import { Service } from "./Service";
 
 export class UserService implements Service {
-  public async getUser(
-    authToken: AuthToken,
-    alias: string
-  ): Promise<User | null> {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.findUserByAlias(alias);
-  }
-
-  public async register(
-    firstName: string,
-    lastName: string,
-    alias: string,
-    password: string,
-    userImageBytes: Uint8Array,
-    imageFileExtension: string
-  ): Promise<[User, AuthToken]> {
-    // Not neded now, but will be needed when you make the request to the server in milestone 3
-    const imageStringBase64: string =
-      Buffer.from(userImageBytes).toString("base64");
-
-    // TODO: Replace with the result of calling the server
+  // Helper Method
+  private async fakeDataAuthentication(): Promise<[UserDto, string]> {
     const user = FakeData.instance.firstUser;
 
     if (user === null) {
       throw new Error("Invalid registration");
     }
 
-    return [user, FakeData.instance.authToken];
+    return [user, FakeData.instance.authToken.token];
   }
 
+  // Endpoint 11
+  public async getUser(token: string, alias: string): Promise<UserDto | null> {
+    // TODO: Replace with the result of calling server
+    let user = FakeData.instance.findUserByAlias(alias);
+    return user == null ? null : user.dto;
+  }
+
+  // Endpoint 12
+  public async register(
+    firstName: string,
+    lastName: string,
+    alias: string,
+    password: string,
+    imageStringBase64: string,
+    imageFileExtension: string
+  ): Promise<[UserDto, string]> {
+    // TODO: Replace with the result of calling the server
+    return this.fakeDataAuthentication();
+  }
+
+  // Endpoint 13
   public async login(
     alias: string,
     password: string
-  ): Promise<[User, AuthToken]> {
+  ): Promise<[UserDto, string]> {
     // TODO: Replace with the result of calling the server
-    const user = FakeData.instance.firstUser;
-
-    if (user === null) {
-      throw new Error("Invalid alias or password");
-    }
-
-    return [user, FakeData.instance.authToken];
+    return this.fakeDataAuthentication();
   }
 
-  public async logout(authToken: AuthToken): Promise<void> {
+  // Endpoint 14
+  public async logout(token: string): Promise<void> {
     // Pause so we can see the logging out message. Delete when the call to the server is implemented.
     await new Promise((res) => setTimeout(res, 1000));
   }
