@@ -37,6 +37,17 @@ Resources:
         info:
           title: Tweeter API
           version: '1.0'
+        x-common-apigateway-gateway-responses:
+          DEFAULT_4XX:
+            responseParameters:
+              gatewayresponse.header.Access-Control-Allow-Origin: '''*'''
+              gatewayresponse.header.Access-Control-Allow-Headers: '''*'''
+              gatewayresponse.header.Access-Control-Allow-Methods: '''GET,POST,PUT,DELETE'''
+          DEFAULT_5XX:
+            responseParameters:
+              gatewayresponse.header.Access-Control-Allow-Origin: '''*'''
+              gatewayresponse.header.Access-Control-Allow-Headers: '''*'''
+              gatewayresponse.header.Access-Control-Allow-Methods: '''GET,POST,PUT,DELETE'''
         x-common-consumes:
         - application/json
         x-common-produces:
@@ -90,6 +101,7 @@ Resources:
         paths:
           /:user1/follow/:user2:
             post:
+              description: A Web API Endpoint that makes user1 follow user2
               consumes:
               - application/json
               produces:
@@ -150,6 +162,7 @@ Resources:
                       type: string
           /:user1/unfollow/:user2:
             post:
+              description: A Web API Endpoint that makes user1 unfollow user2
               consumes:
               - application/json
               produces:
@@ -210,6 +223,8 @@ Resources:
                       type: string
           /:user1/isfollowing/:user2:
             post:
+              description: A Web API Endpoint that checks to see if user1 is following
+                user2
               consumes:
               - application/json
               produces:
@@ -270,6 +285,8 @@ Resources:
                       type: string
           /count/:user/followees:
             post:
+              description: A Web API Endpoint that counts how many people are following
+                user
               consumes:
               - application/json
               produces:
@@ -330,6 +347,8 @@ Resources:
                       type: string
           /count/:user/followers:
             post:
+              description: A Web API Endpoint that counts how many people user is
+                following
               consumes:
               - application/json
               produces:
@@ -390,6 +409,8 @@ Resources:
                       type: string
           /load/:user/followees:
             post:
+              description: A Web API Endpoint that gets a page of people following
+                user
               consumes:
               - application/json
               produces:
@@ -450,6 +471,8 @@ Resources:
                       type: string
           /load/:user/followers:
             post:
+              description: A Web API Endpoint that gets a page of people the user
+                is following
               consumes:
               - application/json
               produces:
@@ -510,6 +533,7 @@ Resources:
                       type: string
           /load/:user/feed:
             post:
+              description: A Web API Endpoint that gets a page of feed for the user
               consumes:
               - application/json
               produces:
@@ -570,6 +594,7 @@ Resources:
                       type: string
           /load/:user/story:
             post:
+              description: A Web API Endpoint that gets a page of story for the user
               consumes:
               - application/json
               produces:
@@ -630,6 +655,7 @@ Resources:
                       type: string
           /post/:user/status:
             post:
+              description: A Web API Endpoint that lets the user post a status
               consumes:
               - application/json
               produces:
@@ -690,6 +716,7 @@ Resources:
                       type: string
           /login/:user:
             post:
+              description: A Web API Endpoint that lets a user login
               consumes:
               - application/json
               produces:
@@ -750,6 +777,7 @@ Resources:
                       type: string
           /register/:user:
             post:
+              description: A Web API Endpoint that registers a user
               consumes:
               - application/json
               produces:
@@ -810,6 +838,7 @@ Resources:
                       type: string
           /get/:user:
             post:
+              description: A Web API Endpoint that gets a user
               consumes:
               - application/json
               produces:
@@ -870,6 +899,7 @@ Resources:
                       type: string
           /logout/:user:
             post:
+              description: A Web API Endpoint that logs out a user
               consumes:
               - application/json
               produces:

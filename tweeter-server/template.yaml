@@ -56,6 +56,17 @@ Resources:
         info:
           title: "Tweeter API"
           version: "1.0"
+        x-common-apigateway-gateway-responses:
+          DEFAULT_4XX:
+            responseParameters:
+              gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+              gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+              gatewayresponse.header.Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE'"
+          DEFAULT_5XX:
+            responseParameters:
+              gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+              gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+              gatewayresponse.header.Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE'"
         x-common-consumes: &commonConsumes
           - application/json
         x-common-produces: &commonProduces
@@ -101,6 +112,7 @@ Resources:
 
           /:user1/follow/:user2: ##### TODO: Change "/user/get" to the actual endpoint URL
             post:
+              description: "A Web API Endpoint that makes user1 follow user2"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -116,6 +128,7 @@ Resources:
 
           /:user1/unfollow/:user2: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that makes user1 unfollow user2"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -130,6 +143,7 @@ Resources:
 
           /:user1/isfollowing/:user2: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that checks to see if user1 is following user2"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -144,6 +158,7 @@ Resources:
 
           /count/:user/followees: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that counts how many people are following user"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -158,6 +173,7 @@ Resources:
 
           /count/:user/followers: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that counts how many people user is following"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -172,6 +188,7 @@ Resources:
 
           /load/:user/followees: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that gets a page of people following user"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -186,6 +203,7 @@ Resources:
 
           /load/:user/followers: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that gets a page of people the user is following"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -200,6 +218,7 @@ Resources:
 
           /load/:user/feed: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that gets a page of feed for the user"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -214,6 +233,7 @@ Resources:
 
           /load/:user/story: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that gets a page of story for the user"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -228,6 +248,7 @@ Resources:
 
           /post/:user/status: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that lets the user post a status"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -242,6 +263,7 @@ Resources:
 
           /login/:user: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that lets a user login"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -256,6 +278,7 @@ Resources:
 
           /register/:user: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that registers a user"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -270,6 +293,7 @@ Resources:
 
           /get/:user: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that gets a user"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
@@ -284,6 +308,7 @@ Resources:
 
           /logout/:user: ##### TODO: Set endpoint URL
             post:
+              description: "A Web API Endpoint that logs out a user"
               consumes: *commonConsumes
               produces: *commonProduces
               x-amazon-apigateway-integration:
