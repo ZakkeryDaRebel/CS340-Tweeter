@@ -2,6 +2,7 @@ import { AuthToken, Status, FakeData } from "tweeter-shared";
 import { Service } from "./Service";
 
 export class StatusService implements Service {
+  // Endpoint 8
   public async loadMoreFeedItems(
     authToken: AuthToken,
     userAlias: string,
@@ -12,6 +13,7 @@ export class StatusService implements Service {
     return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
   }
 
+  // Endpoint 9
   public async loadMoreStoryItems(
     authToken: AuthToken,
     userAlias: string,
@@ -22,6 +24,7 @@ export class StatusService implements Service {
     return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
   }
 
+  // Endpoint 10
   public async postStatus(
     authToken: AuthToken,
     newStatus: Status
