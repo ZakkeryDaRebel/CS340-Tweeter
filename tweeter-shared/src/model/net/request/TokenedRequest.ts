@@ -1,5 +1,5 @@
 import { TweeterRequest } from "./TweeterRequest";
 
-export interface LogoutRequest extends TweeterRequest {
+export interface TokenedRequest extends TweeterRequest {
   readonly token: string;
 }

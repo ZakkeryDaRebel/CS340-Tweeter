@@ -1,11 +1,11 @@
 import {
-  GeneralFollowRequest,
   GetFollowerAndFolloweeCountResponse,
+  PutItemRequest,
   UserDto,
 } from "tweeter-shared";
 
 export const handler = async (
-  request: GeneralFollowRequest,
+  request: PutItemRequest<UserDto>,
   operation: (
     token: string,
     userToUnfollow: UserDto
@@ -13,7 +13,7 @@ export const handler = async (
 ): Promise<GetFollowerAndFolloweeCountResponse> => {
   const [followerCount, followeeCount] = await operation(
     request.token,
-    request.user
+    request.item
   );
 
   return {

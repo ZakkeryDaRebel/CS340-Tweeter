@@ -1,6 +1,5 @@
-import { TweeterRequest } from "./TweeterRequest";
+import { TokenedRequest } from "./TokenedRequest";
 
-export interface GetUserRequest extends TweeterRequest {
-  readonly token: string;
+export interface GetUserRequest extends TokenedRequest {
   readonly user: string;
 }

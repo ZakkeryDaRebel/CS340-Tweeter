@@ -1,9 +1,13 @@
-import { AuthenticationResponse, LoginRequest, UserDto } from "tweeter-shared";
+import {
+  AuthenticationRequest,
+  AuthenticationResponse,
+  UserDto,
+} from "tweeter-shared";
 import { UserService } from "../../../model/service/UserService";
 import { handler as parentHandler } from "./AuthenticationLambda";
 
 export const handler = async (
-  request: LoginRequest
+  request: AuthenticationRequest
 ): Promise<AuthenticationResponse> => {
   return parentHandler(async (): Promise<[UserDto, string]> => {
     const userService = new UserService();
