@@ -99,7 +99,7 @@ Resources:
           # Endpoint definitions
           #
 
-          /user/get: ##### TODO: Change "/user/get" to the actual endpoint URL
+          /:user1/follow/:user2: ##### TODO: Change "/user/get" to the actual endpoint URL
             post:
               consumes: *commonConsumes
               produces: *commonProduces
@@ -109,12 +109,12 @@ Resources:
                 uri:
                   ##### TODO: Change "userGetFunction" to the actual function name. (Don't delete the $, {}, or .Arn suffix.)
                   ##### The function name must agree with the "Web API Lambda functions" section below.
-                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${userGetFunction.Arn}/invocations
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${followFunction.Arn}/invocations
                 requestTemplates: *commonRequestTemplates
                 responses: *commonAmazonResponses
               responses: *commonSwaggerResponses
 
-          /user/create: ##### TODO: Set endpoint URL
+          /:user1/unfollow/:user2: ##### TODO: Set endpoint URL
             post:
               consumes: *commonConsumes
               produces: *commonProduces
@@ -123,14 +123,196 @@ Resources:
                 httpMethod: POST
                 uri:
                   ##### TODO: Set function name
-                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${userCreateFunction.Arn}/invocations
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${unfollowFunction.Arn}/invocations
                 requestTemplates: *commonRequestTemplates
                 responses: *commonAmazonResponses
               responses: *commonSwaggerResponses
 
-            #
-            # TODO: ADD MORE ENDPOINT DEFINITIONS HERE
-            #
+          /:user1/isfollowing/:user2: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getIsFollowerFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /count/:user/followees: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${countFolloweesFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /count/:user/followers: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${countFollowersFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /load/:user/followees: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${loadFolloweesFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /load/:user/followers: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${loadFollowersFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /load/:user/feed: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${loadFeedFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /load/:user/story: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${loadStoryFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /post/:user/status: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${postStatusFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /login/:user: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${loginFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /register/:user: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${registerFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /get/:user: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getUserFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /logout/:user: ##### TODO: Set endpoint URL
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  ##### TODO: Set function name
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${logoutUserFunction.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          # /user/create: ##### TODO: Set endpoint URL
+          #   post:
+          #     consumes: *commonConsumes
+          #     produces: *commonProduces
+          #     x-amazon-apigateway-integration:
+          #       type: aws
+          #       httpMethod: POST
+          #       uri:
+          #         ##### TODO: Set function name
+          #         Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${userCreateFunction.Arn}/invocations
+          #       requestTemplates: *commonRequestTemplates
+          #       responses: *commonAmazonResponses
+          #     responses: *commonSwaggerResponses
+
+          #
+          # TODO: ADD MORE ENDPOINT DEFINITIONS HERE
+          #
 
   #
   # SQS Queues  (This will become relevant in Milestone 4. For M3, leave this section commented out.)
@@ -160,13 +342,13 @@ Resources:
 
   ##### TODO: Change "userGetFunction" to the actual function name.
   ##### It must match the function name in the "Endpoint definitons" section above.
-  userGetFunction:
+  followFunction:
     Type: AWS::Serverless::Function
     Properties:
       ##### TODO: Change "userGetFunction" to the actual function name.
-      FunctionName: userGetFunction
+      FunctionName: followFunction
       ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
-      Handler: handlers/users/UserGetHandler.userGetHandler
+      Handler: lambda/follow/action/FollowLambda.handler
       Policies: *commonPolicies
       Events:
         PostApi:
@@ -175,22 +357,256 @@ Resources:
             RestApiId: !Ref tweeterApi
             ##### TODO: Modify the Path property to the actual endpoint URL.
             ##### It must match the URL in the "Endpoint definitions" section above.
-            Path: /user/get
+            Path: /:user1/follow/:user2
             Method: POST
 
-  userCreateFunction: ##### TODO: Set function name
+  unfollowFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: userCreateFunction ##### TODO: Set function name
-      Handler: handlers/users/UserCreateHandler.userCreateHandler ##### TODO: Set Handler
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: unfollowFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/follow/action/UnfollowLambda.handler
       Policies: *commonPolicies
       Events:
         PostApi:
           Type: Api
           Properties:
             RestApiId: !Ref tweeterApi
-            Path: /user/create ##### TODO: Set Path
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /:user1/unfollow/:user2
             Method: POST
+
+  getIsFollowerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: getIsFollowerFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/follow/check/GetIsFollowerLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /:user1/isfollowing/:user2
+            Method: POST
+
+  countFolloweesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: countFolloweesFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/follow/count/GetFolloweeCountLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /count/:user/followees
+            Method: POST
+
+  countFollowersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: countFollowersFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/follow/count/GetFollowerCountLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /count/:user/followers
+            Method: POST
+
+  loadFolloweesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: loadFolloweesFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/follow/load/GetFolloweesLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /load/:user/followees
+            Method: POST
+
+  loadFollowersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: loadFollowersFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/follow/load/GetFollowersLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /load/:user/followers
+            Method: POST
+
+  loadFeedFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: loadFeedFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/status/load/GetFeedLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /load/:user/feed
+            Method: POST
+
+  loadStoryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: loadStoryFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/status/load/GetStoryLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /load/:user/story
+            Method: POST
+
+  postStatusFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: postStatusFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/status/post/PostStatusLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /post/:user/status
+            Method: POST
+
+  loginFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: loginFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/user/authentication/LoginUserLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /login/:user
+            Method: POST
+
+  registerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: registerFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/user/authentication/RegisterUserLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /register/:user
+            Method: POST
+
+  getUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: getUserFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/user/get/GetUserLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /get/:user
+            Method: POST
+
+  logoutUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ##### TODO: Change "userGetFunction" to the actual function name.
+      FunctionName: logoutUserFunction
+      ##### TODO: Modify Handler property to match your code. This identifies the exact function that the lambda should run.
+      Handler: lambda/user/logout/LogoutLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            ##### TODO: Modify the Path property to the actual endpoint URL.
+            ##### It must match the URL in the "Endpoint definitions" section above.
+            Path: /logout/:user
+            Method: POST
+
+  # userCreateFunction: ##### TODO: Set function name
+  #  Type: AWS::Serverless::Function
+  #  Properties:
+  #    FunctionName: userCreateFunction ##### TODO: Set function name
+  #    Handler: handlers/users/UserCreateHandler.userCreateHandler ##### TODO: Set Handler
+  #    Policies: *commonPolicies
+  #    Events:
+  #      PostApi:
+  #        Type: Api
+  #        Properties:
+  #          RestApiId: !Ref tweeterApi
+  #          Path: /user/create ##### TODO: Set Path
+  #          Method: POST
 
   #
   # TODO: ADD MORE WEB API LAMBDA DEFINITIONS HERE
@@ -217,39 +633,41 @@ Resources:
   # DynamoDB Tables
   #
 
-  visitTable: ##### TODO: Change "visitTable" to match the table name. This doesn't
-    #####       need to be the actual table name, just a unique identifier.
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: visit ##### TODO: Set the actual table name. This is what your code will use to identify this table.
-      AttributeDefinitions:
-        ##### TODO: Add any attributes that will be used as partition or sort keys for the table or any indexes.
-        - AttributeName: person_name
-          AttributeType: S ##### TODO: Set the data type for this attribute. S for string, N for number, etc.
-        - AttributeName: place_name
-          AttributeType: S
-      KeySchema:
-        - AttributeName: person_name ##### TODO: Set the table partition key name
-          KeyType: HASH
-        - AttributeName: place_name ##### TODO: Set the table sort key name. Delete these
-          KeyType: RANGE #####       two lines if the table has no sort key.
-      BillingMode: PROVISIONED
-      ProvisionedThroughput:
-        ReadCapacityUnits: 1 ##### TODO: Set the table's Read and Write capacities. Leaving these at
-        WriteCapacityUnits: 1 #####       one is fine for now, but you may need to change them later.
-      ##### TODO: If you don't need an index for this table, delete the GlobalSecondaryIndexes property and all its subproperties.
-      GlobalSecondaryIndexes:
-        - IndexName: place_index ##### TODO: Set the actual index name. This is what your code will use to identify this index.
-          KeySchema:
-            - AttributeName: place_name ##### TODO: Set the index partition key name
-              KeyType: HASH
-            - AttributeName: person_name ##### TODO: Set the index sort key name. Delete these
-              KeyType: RANGE #####       two lines if the index has no sort key.
-          ProvisionedThroughput:
-            ReadCapacityUnits: 1 ##### TODO: Same thing. Indexes have their own read/write
-            WriteCapacityUnits: 1 #####       capacities that you may need to change.
-          Projection:
-            ProjectionType: ALL
+  # THAN'S EXAMPLE ON HOW TO CREATE A TABLE
+  #
+  #visitTable: ##### TODO: Change "visitTable" to match the table name. This doesn't
+  #  #####       need to be the actual table name, just a unique identifier.
+  #  Type: AWS::DynamoDB::Table
+  #  Properties:
+  #    TableName: visit ##### TODO: Set the actual table name. This is what your code will use to identify this table.
+  #    AttributeDefinitions:
+  #      ##### TODO: Add any attributes that will be used as partition or sort keys for the table or any indexes.
+  #      - AttributeName: person_name
+  #        AttributeType: S ##### TODO: Set the data type for this attribute. S for string, N for number, etc.
+  #      - AttributeName: place_name
+  #        AttributeType: S
+  #    KeySchema:
+  #      - AttributeName: person_name ##### TODO: Set the table partition key name
+  #        KeyType: HASH
+  #      - AttributeName: place_name ##### TODO: Set the table sort key name. Delete these
+  #        KeyType: RANGE #####       two lines if the table has no sort key.
+  #    BillingMode: PROVISIONED
+  #    ProvisionedThroughput:
+  #      ReadCapacityUnits: 1 ##### TODO: Set the table's Read and Write capacities. Leaving these at
+  #      WriteCapacityUnits: 1 #####       one is fine for now, but you may need to change them later.
+  #    ##### TODO: If you don't need an index for this table, delete the GlobalSecondaryIndexes property and all its subproperties.
+  #    GlobalSecondaryIndexes:
+  #      - IndexName: place_index ##### TODO: Set the actual index name. This is what your code will use to identify this index.
+  #        KeySchema:
+  #          - AttributeName: place_name ##### TODO: Set the index partition key name
+  #            KeyType: HASH
+  #          - AttributeName: person_name ##### TODO: Set the index sort key name. Delete these
+  #            KeyType: RANGE #####       two lines if the index has no sort key.
+  #        ProvisionedThroughput:
+  #          ReadCapacityUnits: 1 ##### TODO: Same thing. Indexes have their own read/write
+  #          WriteCapacityUnits: 1 #####       capacities that you may need to change.
+  #        Projection:
+  #          ProjectionType: ALL
 
   followTable: ##### TODO: Change to match the table name
     Type: AWS::DynamoDB::Table

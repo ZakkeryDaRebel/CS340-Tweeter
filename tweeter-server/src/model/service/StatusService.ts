@@ -23,7 +23,9 @@ export class StatusService implements Service {
     lastItem: StatusDto | null
   ): Promise<[StatusDto[], boolean]> {
     // TODO: Replace with the result of calling server
-    return this.getStatuses(lastItem, pageSize);
+    const service = new StatusService();
+    const fn = service.getStatuses.bind(service);
+    return await fn(lastItem, pageSize);
   }
 
   // Endpoint 9
@@ -34,7 +36,9 @@ export class StatusService implements Service {
     lastItem: StatusDto | null
   ): Promise<[StatusDto[], boolean]> {
     // TODO: Replace with the result of calling server
-    return this.getStatuses(lastItem, pageSize);
+    const service = new StatusService();
+    const fn = service.getStatuses.bind(service);
+    return await fn(lastItem, pageSize);
   }
 
   // Endpoint 10

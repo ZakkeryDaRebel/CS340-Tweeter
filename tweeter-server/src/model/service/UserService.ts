@@ -30,7 +30,9 @@ export class UserService implements Service {
     imageFileExtension: string
   ): Promise<[UserDto, string]> {
     // TODO: Replace with the result of calling the server
-    return this.fakeDataAuthentication();
+    const followService = new UserService();
+    const fn = followService.fakeDataAuthentication.bind(followService);
+    return fn();
   }
 
   // Endpoint 13
@@ -39,7 +41,9 @@ export class UserService implements Service {
     password: string
   ): Promise<[UserDto, string]> {
     // TODO: Replace with the result of calling the server
-    return this.fakeDataAuthentication();
+    const followService = new UserService();
+    const fn = followService.fakeDataAuthentication.bind(followService);
+    return fn();
   }
 
   // Endpoint 14

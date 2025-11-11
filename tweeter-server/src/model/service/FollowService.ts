@@ -34,7 +34,9 @@ export class FollowService implements Service {
     lastItem: UserDto | null
   ): Promise<[UserDto[], boolean]> {
     // TODO: Replace with the result of calling server
-    return this.getFakeData(lastItem, pageSize, userAlias);
+    const followService = new FollowService();
+    const fn = followService.getFakeData.bind(followService);
+    return fn(lastItem, pageSize, userAlias);
   }
 
   // Endpoint 2
@@ -45,7 +47,9 @@ export class FollowService implements Service {
     lastItem: UserDto | null
   ): Promise<[UserDto[], boolean]> {
     // TODO: Replace with the result of calling server
-    return this.getFakeData(lastItem, pageSize, userAlias);
+    const followService = new FollowService();
+    const fn = followService.getFakeData.bind(followService);
+    return fn(lastItem, pageSize, userAlias);
   }
 
   // Endpoint 3
@@ -80,7 +84,9 @@ export class FollowService implements Service {
 
     // TODO: Call the server
 
-    return await this.getCounts(token, userToFollow);
+    const followService = new FollowService();
+    const fn = followService.getCounts.bind(followService);
+    return await fn(token, userToFollow);
   }
 
   // Endpoint 7
@@ -93,6 +99,8 @@ export class FollowService implements Service {
 
     // TODO: Call the server
 
-    return await this.getCounts(token, userToUnfollow);
+    const followService = new FollowService();
+    const fn = followService.getCounts.bind(followService);
+    return await fn(token, userToUnfollow);
   }
 }
