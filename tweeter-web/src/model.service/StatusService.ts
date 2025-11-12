@@ -1,5 +1,13 @@
-import { AuthToken, Status, FakeData } from "tweeter-shared";
+import {
+  AuthToken,
+  Status,
+  FakeData,
+  PagedItemRequest,
+  StatusDto,
+  PutItemRequest,
+} from "tweeter-shared";
 import { Service } from "./Service";
+import { ServerFacade } from "../network/ServerFacade";
 
 export class StatusService implements Service {
   // Endpoint 8
@@ -9,8 +17,13 @@ export class StatusService implements Service {
     pageSize: number,
     lastItem: Status | null
   ): Promise<[Status[], boolean]> {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
+    const request: PagedItemRequest<StatusDto> = {
+      token: authToken.token,
+      userAlias: userAlias,
+      pageSize: pageSize,
+      lastItem: lastItem,
+    };
+    return new ServerFacade().loadMoreFeedItems(request);
   }
 
   // Endpoint 9
@@ -20,8 +33,13 @@ export class StatusService implements Service {
     pageSize: number,
     lastItem: Status | null
   ): Promise<[Status[], boolean]> {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
+    const request: PagedItemRequest<StatusDto> = {
+      token: authToken.token,
+      userAlias: userAlias,
+      pageSize: pageSize,
+      lastItem: lastItem,
+    };
+    return new ServerFacade().loadMoreStoryItems(request);
   }
 
   // Endpoint 10
@@ -32,6 +50,10 @@ export class StatusService implements Service {
     // Pause so we can see the logging out message. Remove when connected to the server
     await new Promise((f) => setTimeout(f, 2000));
 
-    // TODO: Call the server to post the status
+    const request: PutItemRequest<StatusDto> = {
+      token: authToken.token,
+      item: newStatus.dto,
+    };
+    return new ServerFacade().postStatus(request);
   }
 }

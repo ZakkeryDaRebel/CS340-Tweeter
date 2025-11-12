@@ -6,6 +6,8 @@ import {
   PagedItemRequest,
   PagedItemResponse,
   PutItemRequest,
+  Status,
+  StatusDto,
   TweeterResponse,
   User,
   UserDto,
@@ -18,7 +20,9 @@ export class ServerFacade {
 
   private clientCommunicator = new ClientCommunicator(this.SERVER_URL);
 
+  //
   // FOLLOW SERVICE
+  //
 
   // Endpoint 1
   public async getMoreFollowees(
@@ -49,14 +53,14 @@ export class ServerFacade {
   public async getFolloweeCount(
     request: PutItemRequest<UserDto>
   ): Promise<number> {
-    return this.parseCount(request, "/count/:user/followees");
+    return await this.parseCount(request, "/count/:user/followees");
   }
 
   // Endpoint 5
   public async getFollowerCount(
     request: PutItemRequest<UserDto>
   ): Promise<number> {
-    return this.parseCount(request, "/count/:user/followers");
+    return await this.parseCount(request, "/count/:user/followers");
   }
 
   // Endpoint 6
@@ -74,24 +78,94 @@ export class ServerFacade {
   }
 
   //
+  // STATUS SERVICE
+  //
+
+  // Endpoint 8
+  public async loadMoreFeedItems(
+    request: PagedItemRequest<StatusDto>
+  ): Promise<[Status[], boolean]> {
+    return await this.pagedStatus(request, "/load/:user/feed");
+  }
+
+  // Endpoint 9
+  public async loadMoreStoryItems(
+    request: PagedItemRequest<StatusDto>
+  ): Promise<[Status[], boolean]> {
+    return await this.pagedStatus(request, "/load/:user/story");
+  }
+
+  // Endpoint 10
+  public async postStatus(request: PutItemRequest<StatusDto>): Promise<void> {
+    const response = await this.clientCommunicator.doPost<
+      PutItemRequest<StatusDto>,
+      TweeterResponse
+    >(request, "/post/:user/status");
+
+    this.handleException(response);
+  }
+
+  //
+  // USER SERVICE
+  //
+
+  // Endpoint 11
+
+  //
   // HELPER METHODS
   //
 
-  // Used by PagedItemResponse<UserDto>
+  // Used by PagedItemRequest<UserDto>
   private async pagedUsers(
     request: PagedItemRequest<UserDto>,
     path: string
   ): Promise<[User[], boolean]> {
+    return this.pagedItems<UserDto, User>(
+      request,
+      path,
+      (response: PagedItemResponse<UserDto>): User[] | null => {
+        // Convert the UserDto array returned by ClientCommunicator to a User array
+        const items: User[] | null =
+          response.success && response.items
+            ? response.items.map((dto) => User.fromDto(dto) as User)
+            : null;
+        return items;
+      }
+    );
+  }
+
+  // Used by PagedItemRequest<StatusDto>
+  private async pagedStatus(
+    request: PagedItemRequest<StatusDto>,
+    path: string
+  ): Promise<[Status[], boolean]> {
+    return this.pagedItems<StatusDto, Status>(
+      request,
+      path,
+      (response: PagedItemResponse<StatusDto>): Status[] | null => {
+        // Convert the StatusDto array returned by ClientCommunicator to a Status array
+        const items: Status[] | null =
+          response.success && response.items
+            ? response.items.map((dto) => Status.fromDto(dto) as Status)
+            : null;
+        return items;
+      }
+    );
+  }
+
+  // Used by PagedItemRequest
+  private async pagedItems<T, R>(
+    request: PagedItemRequest<T>,
+    path: string,
+    operation: (pagedResponse: PagedItemResponse<T>) => R[] | null
+  ): Promise<[R[], boolean]> {
     // Convert the UserDto array returned by ClientCommunicator to a User array
     const response = await this.clientCommunicator.doPost<
-      PagedItemRequest<UserDto>,
-      PagedItemResponse<UserDto>
-    >(request, "/load/:user/followers");
+      PagedItemRequest<T>,
+      PagedItemResponse<T>
+    >(request, path);
 
-    const items: User[] | null =
-      response.success && response.items
-        ? response.items.map((dto) => User.fromDto(dto) as User)
-        : null;
+    const items: R[] | null = operation(response);
 
     // Handle errors
     this.handleException(response);

@@ -3,6 +3,7 @@ import { AuthToken, User, FakeData } from "tweeter-shared";
 import { Service } from "./Service";
 
 export class UserService implements Service {
+  // Endpoint 11
   public async getUser(
     authToken: AuthToken,
     alias: string
@@ -11,6 +12,7 @@ export class UserService implements Service {
     return FakeData.instance.findUserByAlias(alias);
   }
 
+  // Endpoint 12
   public async register(
     firstName: string,
     lastName: string,
@@ -33,6 +35,7 @@ export class UserService implements Service {
     return [user, FakeData.instance.authToken];
   }
 
+  // Endpoint 13
   public async login(
     alias: string,
     password: string
@@ -47,6 +50,7 @@ export class UserService implements Service {
     return [user, FakeData.instance.authToken];
   }
 
+  // Endpoint 14
   public async logout(authToken: AuthToken): Promise<void> {
     // Pause so we can see the logging out message. Delete when the call to the server is implemented.
     await new Promise((res) => setTimeout(res, 1000));
