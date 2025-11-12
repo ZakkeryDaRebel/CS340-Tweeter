@@ -1,4 +1,3 @@
-import { User } from "tweeter-shared";
 import { SignInPresenter, SignInView } from "./SignInPresenter";
 
 export class LoginPresenter extends SignInPresenter<SignInView> {
