@@ -201,7 +201,12 @@ export class ServerFacade {
       PagedItemResponse<T>
     >(request, path);
 
+    console.log(response);
+    console.log(response.items);
+
     const items: R[] | null = operation(response);
+
+    console.log(items);
 
     // Handle errors
     this.handleException(response);

@@ -20,7 +20,7 @@ export class StatusService implements Service {
       token: authToken.token,
       userAlias: userAlias,
       pageSize: pageSize,
-      lastItem: lastItem,
+      lastItem: lastItem === null ? null : lastItem.dto,
     };
     return await new ServerFacade().loadMoreFeedItems(request);
   }
@@ -36,7 +36,7 @@ export class StatusService implements Service {
       token: authToken.token,
       userAlias: userAlias,
       pageSize: pageSize,
-      lastItem: lastItem,
+      lastItem: lastItem === null ? null : lastItem.dto,
     };
     return await new ServerFacade().loadMoreStoryItems(request);
   }
