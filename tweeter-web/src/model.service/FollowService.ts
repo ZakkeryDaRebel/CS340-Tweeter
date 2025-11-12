@@ -21,7 +21,7 @@ export class FollowService implements Service {
       token: authToken.token,
       userAlias: userAlias,
       pageSize: pageSize,
-      lastItem: lastItem,
+      lastItem: lastItem === null ? null : lastItem.dto,
     };
     return await new ServerFacade().getMoreFollowees(request);
   }
@@ -37,7 +37,7 @@ export class FollowService implements Service {
       token: authToken.token,
       userAlias: userAlias,
       pageSize: pageSize,
-      lastItem: lastItem,
+      lastItem: lastItem === null ? null : lastItem.dto,
     };
     return await new ServerFacade().getMoreFollowers(request);
   }
