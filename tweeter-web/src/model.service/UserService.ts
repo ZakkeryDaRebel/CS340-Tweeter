@@ -1,6 +1,14 @@
 import { Buffer } from "buffer";
-import { AuthToken, User, FakeData } from "tweeter-shared";
+import {
+  AuthToken,
+  User,
+  GetUserRequest,
+  RegisterRequest,
+  AuthenticationRequest,
+  TokenedRequest,
+} from "tweeter-shared";
 import { Service } from "./Service";
+import { ServerFacade } from "../network/ServerFacade";
 
 export class UserService implements Service {
   // Endpoint 11
@@ -8,8 +16,11 @@ export class UserService implements Service {
     authToken: AuthToken,
     alias: string
   ): Promise<User | null> {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.findUserByAlias(alias);
+    const request: GetUserRequest = {
+      token: authToken.token,
+      user: alias,
+    };
+    return await new ServerFacade().getUser(request);
   }
 
   // Endpoint 12
@@ -21,18 +32,20 @@ export class UserService implements Service {
     userImageBytes: Uint8Array,
     imageFileExtension: string
   ): Promise<[User, AuthToken]> {
-    // Not neded now, but will be needed when you make the request to the server in milestone 3
     const imageStringBase64: string =
       Buffer.from(userImageBytes).toString("base64");
 
-    // TODO: Replace with the result of calling the server
-    const user = FakeData.instance.firstUser;
-
-    if (user === null) {
-      throw new Error("Invalid registration");
-    }
-
-    return [user, FakeData.instance.authToken];
+    const request: RegisterRequest = {
+      firstName: firstName,
+      lastName: lastName,
+      alias: alias,
+      password: password,
+      imageStringBase64: imageStringBase64,
+      imageFileExtension: imageFileExtension,
+    };
+    let [user, auth] = await new ServerFacade().register(request);
+    console.log("User: " + user.toJson());
+    return [user, auth];
   }
 
   // Endpoint 13
@@ -40,19 +53,21 @@ export class UserService implements Service {
     alias: string,
     password: string
   ): Promise<[User, AuthToken]> {
-    // TODO: Replace with the result of calling the server
-    const user = FakeData.instance.firstUser;
-
-    if (user === null) {
-      throw new Error("Invalid alias or password");
-    }
-
-    return [user, FakeData.instance.authToken];
+    const request: AuthenticationRequest = {
+      alias: alias,
+      password: password,
+    };
+    return await new ServerFacade().login(request);
   }
 
   // Endpoint 14
   public async logout(authToken: AuthToken): Promise<void> {
     // Pause so we can see the logging out message. Delete when the call to the server is implemented.
     await new Promise((res) => setTimeout(res, 1000));
+
+    const request: TokenedRequest = {
+      token: authToken.token,
+    };
+    new ServerFacade().logout(request);
   }
 }

@@ -88,11 +88,12 @@ export class User {
   }
 
   public get dto(): UserDto {
-    return {
+    let userDto: UserDto = {
       firstName: this.firstName,
       lastName: this.lastName,
       alias: this.alias,
       imageUrl: this.imageUrl,
     };
+    return userDto;
   }
 }

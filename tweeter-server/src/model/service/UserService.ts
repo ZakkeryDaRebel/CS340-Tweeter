@@ -10,14 +10,14 @@ export class UserService implements Service {
       throw new Error("Invalid registration");
     }
 
-    return [user, FakeData.instance.authToken.token];
+    return [user.dto, FakeData.instance.authToken.token];
   }
 
   // Endpoint 11
   public async getUser(token: string, alias: string): Promise<UserDto | null> {
     // TODO: Replace with the result of calling server
     let user = FakeData.instance.findUserByAlias(alias);
-    return user == null ? null : user.dto;
+    return user === null ? null : user.dto;
   }
 
   // Endpoint 12

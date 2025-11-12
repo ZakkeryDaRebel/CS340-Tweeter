@@ -1,7 +1,6 @@
 import {
   AuthToken,
   Status,
-  FakeData,
   PagedItemRequest,
   StatusDto,
   PutItemRequest,
@@ -23,7 +22,7 @@ export class StatusService implements Service {
       pageSize: pageSize,
       lastItem: lastItem,
     };
-    return new ServerFacade().loadMoreFeedItems(request);
+    return await new ServerFacade().loadMoreFeedItems(request);
   }
 
   // Endpoint 9
@@ -39,7 +38,7 @@ export class StatusService implements Service {
       pageSize: pageSize,
       lastItem: lastItem,
     };
-    return new ServerFacade().loadMoreStoryItems(request);
+    return await new ServerFacade().loadMoreStoryItems(request);
   }
 
   // Endpoint 10
@@ -54,6 +53,6 @@ export class StatusService implements Service {
       token: authToken.token,
       item: newStatus.dto,
     };
-    return new ServerFacade().postStatus(request);
+    return await new ServerFacade().postStatus(request);
   }
 }

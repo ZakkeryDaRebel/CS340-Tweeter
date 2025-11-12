@@ -1,13 +1,20 @@
 import {
+  AuthenticationRequest,
+  AuthenticationResponse,
+  AuthToken,
   GetCountResponse,
   GetFollowerAndFolloweeCountResponse,
+  GetUserRequest,
+  GetUserResponse,
   IsFollowerRequest,
   IsFollowerResponse,
   PagedItemRequest,
   PagedItemResponse,
   PutItemRequest,
+  RegisterRequest,
   Status,
   StatusDto,
+  TokenedRequest,
   TweeterResponse,
   User,
   UserDto,
@@ -110,6 +117,35 @@ export class ServerFacade {
   //
 
   // Endpoint 11
+  public async getUser(request: GetUserRequest): Promise<User | null> {
+    const response = await this.clientCommunicator.doPost<
+      GetUserRequest,
+      GetUserResponse
+    >(request, "/get/:user");
+
+    this.handleException(response);
+    return response.user === null ? null : User.fromDto(response.user);
+  }
+
+  // Endpoint 12
+  public async register(request: RegisterRequest): Promise<[User, AuthToken]> {
+    return this.authentication(request, "/register/:user");
+  }
+
+  // Endpoint 13
+  public async login(
+    request: AuthenticationRequest
+  ): Promise<[User, AuthToken]> {
+    return this.authentication(request, "/login/:user");
+  }
+
+  // Endpoint 14
+  public async logout(request: TokenedRequest): Promise<void> {
+    const response = await this.clientCommunicator.doPost<
+      TokenedRequest,
+      TweeterResponse
+    >(request, "/logout/:user");
+  }
 
   //
   // HELPER METHODS
@@ -202,6 +238,23 @@ export class ServerFacade {
 
     this.handleException(response);
     return [response.followerCount, response.followeeCount];
+  }
+
+  // Used by AuthenticationRequest
+  private async authentication(
+    request: AuthenticationRequest,
+    path: string
+  ): Promise<[User, AuthToken]> {
+    const response = await this.clientCommunicator.doPost<
+      AuthenticationRequest,
+      AuthenticationResponse
+    >(request, path);
+
+    this.handleException(response);
+    return [
+      User.fromDto(response.user)!,
+      new AuthToken(response.token, Date.now()),
+    ];
   }
 
   // If the response is not a success, then throw an error

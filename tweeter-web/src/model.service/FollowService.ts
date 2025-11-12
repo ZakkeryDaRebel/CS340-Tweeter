@@ -1,7 +1,6 @@
 import {
   AuthToken,
   User,
-  FakeData,
   PagedItemRequest,
   UserDto,
   IsFollowerRequest,
@@ -24,7 +23,7 @@ export class FollowService implements Service {
       pageSize: pageSize,
       lastItem: lastItem,
     };
-    return new ServerFacade().getMoreFollowees(request);
+    return await new ServerFacade().getMoreFollowees(request);
   }
 
   // Endpoint 2
@@ -40,7 +39,7 @@ export class FollowService implements Service {
       pageSize: pageSize,
       lastItem: lastItem,
     };
-    return new ServerFacade().getMoreFollowers(request);
+    return await new ServerFacade().getMoreFollowers(request);
   }
 
   // Endpoint 3
@@ -54,7 +53,7 @@ export class FollowService implements Service {
       userOne: user.dto,
       userTwo: selectedUser.dto,
     };
-    return new ServerFacade().getIsFollower(request);
+    return await new ServerFacade().getIsFollower(request);
   }
 
   // Endpoint 4
@@ -66,7 +65,7 @@ export class FollowService implements Service {
       token: authToken.token,
       item: user.dto,
     };
-    return new ServerFacade().getFolloweeCount(request);
+    return await new ServerFacade().getFolloweeCount(request);
   }
 
   // Endpoint 5
@@ -78,7 +77,7 @@ export class FollowService implements Service {
       token: authToken.token,
       item: user.dto,
     };
-    return new ServerFacade().getFollowerCount(request);
+    return await new ServerFacade().getFollowerCount(request);
   }
 
   // Endpoint 6
@@ -93,7 +92,7 @@ export class FollowService implements Service {
       token: authToken.token,
       item: userToFollow.dto,
     };
-    return new ServerFacade().follow(request);
+    return await new ServerFacade().follow(request);
   }
 
   // Endpoint 7
@@ -108,6 +107,6 @@ export class FollowService implements Service {
       token: authToken.token,
       item: userToUnfollow.dto,
     };
-    return new ServerFacade().unfollow(request);
+    return await new ServerFacade().unfollow(request);
   }
 }
