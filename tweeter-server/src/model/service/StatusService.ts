@@ -2,11 +2,15 @@ import { Status, FakeData, StatusDto } from "tweeter-shared";
 import { Service } from "./Service";
 
 export class StatusService implements Service {
+  public constructor() {}
+
+  // TODO: Have non-DTO & DTO translation happen in the handler
+
   // Helper Methods
   private async getStatuses(
     lastItem: StatusDto | null,
     pageSize: number
-  ): Promise<[StatusDto[], boolean]> {
+  ): Promise<[Status[], boolean]> {
     let [statuses, hasMore] = FakeData.instance.getPageOfStatuses(
       Status.fromDto(lastItem),
       pageSize
@@ -20,8 +24,8 @@ export class StatusService implements Service {
     token: string,
     userAlias: string,
     pageSize: number,
-    lastItem: StatusDto | null
-  ): Promise<[StatusDto[], boolean]> {
+    lastItem: Status | null
+  ): Promise<[Status[], boolean]> {
     // TODO: Replace with the result of calling server
     const service = new StatusService();
     const fn = service.getStatuses.bind(service);
@@ -33,8 +37,8 @@ export class StatusService implements Service {
     token: string,
     userAlias: string,
     pageSize: number,
-    lastItem: StatusDto | null
-  ): Promise<[StatusDto[], boolean]> {
+    lastItem: Status | null
+  ): Promise<[Status[], boolean]> {
     // TODO: Replace with the result of calling server
     const service = new StatusService();
     const fn = service.getStatuses.bind(service);
@@ -42,7 +46,7 @@ export class StatusService implements Service {
   }
 
   // Endpoint 10
-  public async postStatus(token: string, newStatus: StatusDto): Promise<void> {
+  public async postStatus(token: string, newStatus: Status): Promise<void> {
     // Pause so we can see the logging out message. Remove when connected to the server
     await new Promise((f) => setTimeout(f, 2000));
 

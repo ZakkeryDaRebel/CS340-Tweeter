@@ -1,4 +1,9 @@
-import { PagedItemRequest, PagedItemResponse, StatusDto } from "tweeter-shared";
+import {
+  PagedItemRequest,
+  PagedItemResponse,
+  Status,
+  StatusDto,
+} from "tweeter-shared";
 
 export const handler = async (
   request: PagedItemRequest<StatusDto>,
@@ -6,20 +11,22 @@ export const handler = async (
     token: string,
     userAlias: string,
     pageSize: number,
-    lastItem: StatusDto | null
-  ) => Promise<[StatusDto[], boolean]>
+    lastItem: Status | null
+  ) => Promise<[Status[], boolean]>
 ): Promise<PagedItemResponse<StatusDto>> => {
   const [items, hasMore] = await operation(
     request.token,
     request.userAlias,
     request.pageSize,
-    request.lastItem
+    Status.fromDto(request.lastItem)
   );
+
+  const dtos = items.map((status: Status) => status.dto);
 
   return {
     success: true,
     message: null,
-    items: items,
+    items: dtos,
     hasMore: hasMore,
   };
 };

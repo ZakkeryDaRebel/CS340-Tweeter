@@ -1,10 +1,10 @@
 import { TokenedRequest, TweeterResponse } from "tweeter-shared";
-import { UserService } from "../../../model/service/UserService";
+import { ServiceFactory } from "../../servicefactory/ServiceFactory";
 
 export const handler = async (
   request: TokenedRequest
 ): Promise<TweeterResponse> => {
-  let userService = new UserService();
+  let userService = new ServiceFactory().getUserService();
   await userService.logout(request.token);
 
   return {

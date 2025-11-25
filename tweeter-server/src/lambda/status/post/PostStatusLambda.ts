@@ -1,11 +1,16 @@
-import { PutItemRequest, StatusDto, TweeterResponse } from "tweeter-shared";
-import { StatusService } from "../../../model/service/StatusService";
+import {
+  PutItemRequest,
+  Status,
+  StatusDto,
+  TweeterResponse,
+} from "tweeter-shared";
+import { ServiceFactory } from "../../servicefactory/ServiceFactory";
 
 export const handler = async (
   request: PutItemRequest<StatusDto>
 ): Promise<TweeterResponse> => {
-  const statusService = new StatusService();
-  statusService.postStatus(request.token, request.item);
+  const statusService = new ServiceFactory().getStatusService();
+  statusService.postStatus(request.token, Status.fromDto(request.item)!);
 
   return {
     success: true,

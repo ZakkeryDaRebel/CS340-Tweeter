@@ -1,9 +1,13 @@
-import { FakeData, UserDto } from "tweeter-shared";
+import { FakeData, User, UserDto } from "tweeter-shared";
 import { Service } from "./Service";
 
 export class UserService implements Service {
+  public constructor() {}
+
+  // TODO: Have non-DTO & DTO translation happen in the handler
+
   // Helper Method
-  private async fakeDataAuthentication(): Promise<[UserDto, string]> {
+  private async fakeDataAuthentication(): Promise<[User, string]> {
     const user = FakeData.instance.firstUser;
 
     if (user === null) {
@@ -14,10 +18,10 @@ export class UserService implements Service {
   }
 
   // Endpoint 11
-  public async getUser(token: string, alias: string): Promise<UserDto | null> {
+  public async getUser(token: string, alias: string): Promise<User | null> {
     // TODO: Replace with the result of calling server
     let user = FakeData.instance.findUserByAlias(alias);
-    return user === null ? null : user.dto;
+    return user;
   }
 
   // Endpoint 12
@@ -28,7 +32,7 @@ export class UserService implements Service {
     password: string,
     imageStringBase64: string,
     imageFileExtension: string
-  ): Promise<[UserDto, string]> {
+  ): Promise<[User, string]> {
     // TODO: Replace with the result of calling the server
     const followService = new UserService();
     const fn = followService.fakeDataAuthentication.bind(followService);
@@ -36,10 +40,7 @@ export class UserService implements Service {
   }
 
   // Endpoint 13
-  public async login(
-    alias: string,
-    password: string
-  ): Promise<[UserDto, string]> {
+  public async login(alias: string, password: string): Promise<[User, string]> {
     // TODO: Replace with the result of calling the server
     const followService = new UserService();
     const fn = followService.fakeDataAuthentication.bind(followService);

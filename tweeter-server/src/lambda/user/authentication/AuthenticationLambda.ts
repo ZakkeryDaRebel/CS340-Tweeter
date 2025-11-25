@@ -1,14 +1,14 @@
-import { AuthenticationResponse, UserDto } from "tweeter-shared";
+import { AuthenticationResponse, User, UserDto } from "tweeter-shared";
 
 export const handler = async (
-  operation: () => Promise<[UserDto, string]>
+  operation: () => Promise<[User, string]>
 ): Promise<AuthenticationResponse> => {
   const [user, token] = await operation();
 
   return {
     success: true,
     message: null,
-    user: user,
+    user: user.dto,
     token: token,
   };
 };
