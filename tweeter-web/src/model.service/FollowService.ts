@@ -10,6 +10,12 @@ import { Service } from "./Service";
 import { ServerFacade } from "../network/ServerFacade";
 
 export class FollowService implements Service {
+  serverFacade: ServerFacade;
+
+  public constructor() {
+    this.serverFacade = new ServerFacade();
+  }
+
   // Endpoint 1
   public async loadMoreFollowees(
     authToken: AuthToken,
@@ -23,7 +29,7 @@ export class FollowService implements Service {
       pageSize: pageSize,
       lastItem: lastItem === null ? null : lastItem.dto,
     };
-    return await new ServerFacade().getMoreFollowees(request);
+    return await this.serverFacade.getMoreFollowees(request);
   }
 
   // Endpoint 2
@@ -39,7 +45,7 @@ export class FollowService implements Service {
       pageSize: pageSize,
       lastItem: lastItem === null ? null : lastItem.dto,
     };
-    return await new ServerFacade().getMoreFollowers(request);
+    return await this.serverFacade.getMoreFollowers(request);
   }
 
   // Endpoint 3
@@ -53,7 +59,7 @@ export class FollowService implements Service {
       userOne: user.dto,
       userTwo: selectedUser.dto,
     };
-    return await new ServerFacade().getIsFollower(request);
+    return await this.serverFacade.getIsFollower(request);
   }
 
   // Endpoint 4
@@ -65,7 +71,7 @@ export class FollowService implements Service {
       token: authToken.token,
       item: user.dto,
     };
-    return await new ServerFacade().getFolloweeCount(request);
+    return await this.serverFacade.getFolloweeCount(request);
   }
 
   // Endpoint 5
@@ -77,7 +83,7 @@ export class FollowService implements Service {
       token: authToken.token,
       item: user.dto,
     };
-    return await new ServerFacade().getFollowerCount(request);
+    return await this.serverFacade.getFollowerCount(request);
   }
 
   // Endpoint 6
@@ -92,7 +98,7 @@ export class FollowService implements Service {
       token: authToken.token,
       item: userToFollow.dto,
     };
-    return await new ServerFacade().follow(request);
+    return await this.serverFacade.follow(request);
   }
 
   // Endpoint 7
@@ -107,6 +113,6 @@ export class FollowService implements Service {
       token: authToken.token,
       item: userToUnfollow.dto,
     };
-    return await new ServerFacade().unfollow(request);
+    return await this.serverFacade.unfollow(request);
   }
 }

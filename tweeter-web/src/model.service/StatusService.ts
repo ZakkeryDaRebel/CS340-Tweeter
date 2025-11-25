@@ -9,6 +9,12 @@ import { Service } from "./Service";
 import { ServerFacade } from "../network/ServerFacade";
 
 export class StatusService implements Service {
+  serverFacade: ServerFacade;
+
+  public constructor() {
+    this.serverFacade = new ServerFacade();
+  }
+
   // Endpoint 8
   public async loadMoreFeedItems(
     authToken: AuthToken,
@@ -22,7 +28,7 @@ export class StatusService implements Service {
       pageSize: pageSize,
       lastItem: lastItem === null ? null : lastItem.dto,
     };
-    return await new ServerFacade().loadMoreFeedItems(request);
+    return await this.serverFacade.loadMoreFeedItems(request);
   }
 
   // Endpoint 9
@@ -38,7 +44,7 @@ export class StatusService implements Service {
       pageSize: pageSize,
       lastItem: lastItem === null ? null : lastItem.dto,
     };
-    return await new ServerFacade().loadMoreStoryItems(request);
+    return await this.serverFacade.loadMoreStoryItems(request);
   }
 
   // Endpoint 10
@@ -53,6 +59,6 @@ export class StatusService implements Service {
       token: authToken.token,
       item: newStatus.dto,
     };
-    return await new ServerFacade().postStatus(request);
+    return await this.serverFacade.postStatus(request);
   }
 }

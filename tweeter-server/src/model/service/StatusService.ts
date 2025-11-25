@@ -1,4 +1,4 @@
-import { Status, FakeData, StatusDto } from "tweeter-shared";
+import { Status, FakeData } from "tweeter-shared";
 import { Service } from "./Service";
 
 export class StatusService implements Service {
@@ -8,15 +8,14 @@ export class StatusService implements Service {
 
   // Helper Methods
   private async getStatuses(
-    lastItem: StatusDto | null,
+    lastItem: Status | null,
     pageSize: number
   ): Promise<[Status[], boolean]> {
     let [statuses, hasMore] = FakeData.instance.getPageOfStatuses(
-      Status.fromDto(lastItem),
+      lastItem,
       pageSize
     );
-    const dtos = statuses.map((status: Status) => status.dto);
-    return [dtos, hasMore];
+    return [statuses, hasMore];
   }
 
   // Endpoint 8
@@ -27,9 +26,7 @@ export class StatusService implements Service {
     lastItem: Status | null
   ): Promise<[Status[], boolean]> {
     // TODO: Replace with the result of calling server
-    const service = new StatusService();
-    const fn = service.getStatuses.bind(service);
-    return await fn(lastItem, pageSize);
+    return await this.getStatuses(lastItem, pageSize);
   }
 
   // Endpoint 9
@@ -40,9 +37,7 @@ export class StatusService implements Service {
     lastItem: Status | null
   ): Promise<[Status[], boolean]> {
     // TODO: Replace with the result of calling server
-    const service = new StatusService();
-    const fn = service.getStatuses.bind(service);
-    return await fn(lastItem, pageSize);
+    return await this.getStatuses(lastItem, pageSize);
   }
 
   // Endpoint 10

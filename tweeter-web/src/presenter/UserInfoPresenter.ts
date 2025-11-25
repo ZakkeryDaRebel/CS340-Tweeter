@@ -53,8 +53,12 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
     this.setNumb(
       authToken,
       displayedUser,
-      this.view.setFolloweeCount,
-      this.followService.getFolloweeCount,
+      (value: number) => {
+        this.view.setFolloweeCount(value);
+      },
+      async (authToken: AuthToken, user: User): Promise<number> => {
+        return this.followService.getFolloweeCount(authToken, user);
+      },
       "get followees count"
     );
   }
@@ -63,8 +67,12 @@ export class UserInfoPresenter extends Presenter<UserInfoView> {
     this.setNumb(
       authToken,
       displayedUser,
-      this.view.setFollowerCount,
-      this.followService.getFollowerCount,
+      (value: number) => {
+        this.view.setFollowerCount(value);
+      },
+      async (authToken: AuthToken, user: User): Promise<number> => {
+        return this.followService.getFollowerCount(authToken, user);
+      },
       "get followers count"
     );
   }

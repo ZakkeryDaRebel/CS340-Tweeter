@@ -11,6 +11,12 @@ import { Service } from "./Service";
 import { ServerFacade } from "../network/ServerFacade";
 
 export class UserService implements Service {
+  serverFacade: ServerFacade;
+
+  public constructor() {
+    this.serverFacade = new ServerFacade();
+  }
+
   // Endpoint 11
   public async getUser(
     authToken: AuthToken,
@@ -20,7 +26,7 @@ export class UserService implements Service {
       token: authToken.token,
       user: alias,
     };
-    return await new ServerFacade().getUser(request);
+    return await this.serverFacade.getUser(request);
   }
 
   // Endpoint 12
@@ -43,7 +49,7 @@ export class UserService implements Service {
       imageStringBase64: imageStringBase64,
       imageFileExtension: imageFileExtension,
     };
-    let [user, auth] = await new ServerFacade().register(request);
+    let [user, auth] = await this.serverFacade.register(request);
     console.log("User: " + user.toJson());
     return [user, auth];
   }
@@ -57,7 +63,7 @@ export class UserService implements Service {
       alias: alias,
       password: password,
     };
-    return await new ServerFacade().login(request);
+    return await this.serverFacade.login(request);
   }
 
   // Endpoint 14
@@ -68,6 +74,6 @@ export class UserService implements Service {
     const request: TokenedRequest = {
       token: authToken.token,
     };
-    new ServerFacade().logout(request);
+    this.serverFacade.logout(request);
   }
 }

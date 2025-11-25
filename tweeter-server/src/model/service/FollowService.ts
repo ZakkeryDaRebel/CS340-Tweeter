@@ -1,14 +1,14 @@
-import { User, FakeData, UserDto } from "tweeter-shared";
+import { User, FakeData } from "tweeter-shared";
 import { Service } from "./Service";
 import { DAOFactory } from "../daofactory/DAOFactory";
-import { FollowDAO } from "../dao/FollowDAO";
+import { FollowDAO } from "../dao/follow/FollowDAO";
 
 export class FollowService implements Service {
-  private followDAO: FollowDAO;
+  // private followDAO: FollowDAO;
 
-  public constructor(daoFactory: DAOFactory) {
-    this.followDAO = daoFactory.getFollowDAO();
-  }
+  // public constructor(daoFactory: DAOFactory) {
+  //   this.followDAO = daoFactory.getFollowDAO();
+  // }
 
   // TODO: Have non-DTO & DTO translation happen in the handler
 
@@ -19,12 +19,11 @@ export class FollowService implements Service {
     userAlias: string
   ): Promise<[User[], boolean]> {
     const [items, hasMore] = FakeData.instance.getPageOfUsers(
-      User.fromDto(lastItem),
+      lastItem,
       pageSize,
       userAlias
     );
-    const dtos = items.map((user: User) => user.dto);
-    return [dtos, hasMore];
+    return [items, hasMore];
   }
 
   private async getCounts(
@@ -46,12 +45,10 @@ export class FollowService implements Service {
     // Look into database and grab pageSize amount of followees from db
 
     //authenticate token
-    this.followDAO.getFollowees(userAlias, pageSize, lastItem);
+    //this.followDAO.readBatchFollowees(token, userAlias, pageSize, lastItem);
 
     // TODO: Replace with the result of calling server
-    const followService = new FollowService();
-    const fn = followService.getFakeData.bind(followService);
-    return fn(lastItem, pageSize, userAlias);
+    return await this.getFakeData(lastItem, pageSize, userAlias);
   }
 
   // Endpoint 2
@@ -64,9 +61,7 @@ export class FollowService implements Service {
     //Look into database and grab pageSize amount of followers from db
 
     // TODO: Replace with the result of calling server
-    const followService = new FollowService();
-    const fn = followService.getFakeData.bind(followService);
-    return fn(lastItem, pageSize, userAlias);
+    return await this.getFakeData(lastItem, pageSize, userAlias);
   }
 
   // Endpoint 3
@@ -108,10 +103,7 @@ export class FollowService implements Service {
     //Add user to the user's table
 
     // TODO: Call the server
-
-    const followService = new FollowService();
-    const fn = followService.getCounts.bind(followService);
-    return await fn(token, userToFollow);
+    return await this.getCounts(token, userToFollow);
   }
 
   // Endpoint 7
@@ -123,9 +115,6 @@ export class FollowService implements Service {
     await new Promise((f) => setTimeout(f, 2000));
 
     // TODO: Call the server
-
-    const followService = new FollowService();
-    const fn = followService.getCounts.bind(followService);
-    return await fn(token, userToUnfollow);
+    return await this.getCounts(token, userToUnfollow);
   }
 }

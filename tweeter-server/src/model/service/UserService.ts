@@ -1,4 +1,4 @@
-import { FakeData, User, UserDto } from "tweeter-shared";
+import { FakeData, User } from "tweeter-shared";
 import { Service } from "./Service";
 
 export class UserService implements Service {
@@ -14,7 +14,7 @@ export class UserService implements Service {
       throw new Error("Invalid registration");
     }
 
-    return [user.dto, FakeData.instance.authToken.token];
+    return [user, FakeData.instance.authToken.token];
   }
 
   // Endpoint 11
@@ -34,17 +34,13 @@ export class UserService implements Service {
     imageFileExtension: string
   ): Promise<[User, string]> {
     // TODO: Replace with the result of calling the server
-    const followService = new UserService();
-    const fn = followService.fakeDataAuthentication.bind(followService);
-    return fn();
+    return await this.fakeDataAuthentication();
   }
 
   // Endpoint 13
   public async login(alias: string, password: string): Promise<[User, string]> {
     // TODO: Replace with the result of calling the server
-    const followService = new UserService();
-    const fn = followService.fakeDataAuthentication.bind(followService);
-    return fn();
+    return await this.fakeDataAuthentication();
   }
 
   // Endpoint 14

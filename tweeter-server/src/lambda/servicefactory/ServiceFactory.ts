@@ -5,7 +5,8 @@ import { UserService } from "../../model/service/UserService";
 
 export class ServiceFactory {
   public getFollowService(): FollowService {
-    return new FollowService(new DynamoDBFactory());
+    //return new FollowService(new DynamoDBFactory());
+    return new FollowService();
   }
 
   public getStatusService(): StatusService {
